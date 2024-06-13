@@ -1,5 +1,6 @@
 import 'package:ecommerce_app_flutter_nodejs/common/widget/custom_button.dart';
 import 'package:ecommerce_app_flutter_nodejs/common/widget/custom_textfield.dart';
+import 'package:ecommerce_app_flutter_nodejs/features/auth/services/auth_services.dart';
 import 'package:flutter/material.dart';
 
 enum Auth { signIn, signUp }
@@ -23,12 +24,31 @@ class _AuthScreenState extends State<AuthScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
 
+  final AuthServices authServices = AuthServices();
+
   @override
   void dispose() {
     super.dispose();
     _emailController.dispose();
     _nameController.dispose();
     _passwordController.dispose();
+  }
+
+  void signUp() {
+    authServices.signUpUser(
+      context: context,
+      email: _emailController.text,
+      name: _nameController.text,
+      password: _passwordController.text,
+    );
+  }
+
+  void signIn() {
+    authServices.signInUser(
+      context: context,
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
   }
 
   @override
@@ -98,7 +118,14 @@ class _AuthScreenState extends State<AuthScreen> {
                           controller: _passwordController,
                           hintText: 'Enter a password',
                         ),
-                        CustomButton(lebel: 'Create Account', onTap: () {})
+                        CustomButton(
+                          lebel: 'Create Account',
+                          onTap: () {
+                            if (_signUpKey.currentState!.validate()) {
+                              signUp();
+                            }
+                          },
+                        )
                       ],
                     ),
                   ),
@@ -120,7 +147,11 @@ class _AuthScreenState extends State<AuthScreen> {
                         ),
                         CustomButton(
                           lebel: 'Log In',
-                          onTap: () {},
+                          onTap: () {
+                            if (_signInKey.currentState!.validate()) {
+                              signIn();
+                            }
+                          },
                         )
                       ],
                     ),
