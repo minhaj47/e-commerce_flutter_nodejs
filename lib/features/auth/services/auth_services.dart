@@ -1,18 +1,18 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:ecommerce_app_flutter_nodejs/features/home/screen/home_screen.dart';
+import 'package:ecommerce_app_flutter_nodejs/common/widget/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:ecommerce_app_flutter_nodejs/Constant/error_handling.dart';
 import 'package:ecommerce_app_flutter_nodejs/Constant/global_veriable.dart';
 import 'package:ecommerce_app_flutter_nodejs/Constant/utils.dart';
 import 'package:ecommerce_app_flutter_nodejs/models/user.dart';
 import 'package:ecommerce_app_flutter_nodejs/provider/user_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthServices {
   // Sign Up User
@@ -75,7 +75,6 @@ class AuthServices {
       final response = await http.post(
         url,
         headers: <String, String>{
-          // 'Autherization': 'authtoken',
           'Content-Type': 'application/json; charset=UTF-8'
         },
         body: jsonEncode({
@@ -101,7 +100,7 @@ class AuthServices {
           Navigator.pushNamedAndRemoveUntil(
             // ignore: use_build_context_synchronously
             context,
-            HomeScreen.routeName,
+            BottomBar.routeName,
             (route) => false,
           );
         },
@@ -112,6 +111,35 @@ class AuthServices {
         context: context,
         message: e.toString(),
       );
+    }
+  }
+
+  // get data
+  void getData(BuildContext context) async {
+    try {
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      String? token = pref.getString('jwt-auth-token');
+
+      if (token == null) {
+        pref.setString('jwt-auth-token', '');
+      }
+
+      final response = await http.get(
+        Uri.parse('$uri/'),
+        headers: <String, String>{
+          'Content-type': 'application/json; UTF=8',
+          'Authorization': 'bearer $token'
+        },
+      );
+      if (response.statusCode == 200) {
+        // ignore: use_build_context_synchronously
+        Provider.of<UserProvider>(context, listen: false)
+            .setUser(response.body);
+      }
+    } catch (e) {
+      // ignore: use_build_context_synchronously
+      log(e.toString());
+      showSnackBar(context: context, message: e.toString());
     }
   }
 }

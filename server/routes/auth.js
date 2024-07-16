@@ -8,6 +8,7 @@ dotenv.config();
 
 // importing other files
 const User = require('../model/user');
+const authMiddleware = require('../middleware/auth_middleware');
 
 // init
 const authRouter = express.Router();
@@ -68,7 +69,7 @@ authRouter.post('/api/sign-in', async (req, res) => {
                 },
                 process.env.JWT_SECRET,
                 // eslint-disable-next-line prettier/prettier
-                { expiresIn: '1h' },
+                { expiresIn: '100h' },
             );
 
             return res.json({
@@ -83,6 +84,17 @@ authRouter.post('/api/sign-in', async (req, res) => {
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
+});
+
+// get data
+
+authRouter.get('/', authMiddleware, async (req, res) => {
+    const user = await User.findById(req.user);
+    if (!user) {
+        return res.status(404).json({ message: 'User not found!' });
+    }
+    // eslint-disable-next-line no-underscore-dangle
+    return res.json({ ...user._doc, token: req.user });
 });
 
 module.exports = authRouter;
