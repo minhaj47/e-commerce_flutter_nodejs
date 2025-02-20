@@ -1,16 +1,42 @@
-# ecommerce_app_flutter_nodejs
+# Flutter Node.js E-commerce App
 
-A new Flutter project.
+This project is a full-stack e-commerce application built with **Flutter** for the mobile frontend and **Node.js** for the backend. The goal of this app is to replicate core features of Amazon, providing users with a smooth and modern online shopping experience.
 
-## Getting Started
+### Features:
+- **User Authentication:** Secure login and sign-up with JWT token-based authentication.
+- **Product Catalog:** Browse a wide range of products with advanced search and filters.
+- **Product Details:** View product information such as description, price, reviews, and images.
+- **Shopping Cart:** Add, edit, and remove products from the cart with real-time updates.
+- **Order Management:** Secure checkout process with order summary and payment integration.
+- **User Profile:** Manage account settings, order history, and personal details.
+- **Admin Panel:** Product and order management, including adding/editing products and viewing customer orders.
+  
+### Tech Stack:
+- **Frontend:** Flutter (Dart)
+  - Responsive UI design for both Android and iOS
+  - Integration with REST APIs for data fetching
+- **Backend:** Node.js, Express.js
+  - REST API for handling user authentication, product catalog, and orders
+  - MongoDB for database storage
 
-This project is a starting point for a Flutter application.
+### Installation:
 
-A few resources to get you started if this is your first Flutter project:
+#### Backend Setup (Node.js):
+1. Clone the repository:  
+   `git clone https://github.com/your-repository/ecommerce-nodejs-backend.git`
+2. Install dependencies:  
+   `npm install`
+3. Create a `.env` file with your database and JWT secrets.
+4. Start the server:  
+   `npm start`
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+#### Frontend Setup (Flutter):
+1. Clone the repository:  
+   `git clone https://github.com/your-repository/ecommerce-flutter-app.git`
+2. Install dependencies:  
+   `flutter pub get`
+3. Run the app:  
+   `flutter run`
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Contributing:
+Feel free to fork, submit issues, and create pull requests to help improve the project!
